@@ -8,10 +8,8 @@ let pokemonList = [
     {name: 'Moltres', height:2, type:['fire','flying']},
     {name: 'Lugia', height:5.2 , type:['psychic','flying']},
 ]
-let text ="";
-for (let i = 0; i < pokemonList.length; i++) {
-    document.write(text + pokemonList[i].name + " " + "(height: " + pokemonList[i].height + ")");
-    if (pokemonList[i].height > 1)
-    {document.write(' - Wow! That\'s a big one!');
-} else {document.write(' - That\'s a smol one!');}
-}
+
+pokemonList.forEach (function(pokemon) {
+  document.write('<p>' +'This is' + " " + pokemon.name + ',' + " " + 'the height is:'+ " " + pokemon.height + 
+    ' type: ' + pokemon.type + '.' +'</p>');
+});

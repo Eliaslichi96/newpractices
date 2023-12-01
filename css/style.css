@@ -63,7 +63,7 @@ ul {
     height: 250px;
     text-align: left;
     background-color: #dbcdd4;
-    position: absolute;
+    position: fixed;
     inset: 20px;
 }
 

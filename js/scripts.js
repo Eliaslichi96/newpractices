@@ -2,19 +2,27 @@ let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
 
-  function add(pokemon) {
-      pokemonList.push(pokemon);
-  }
-  
   function getAll() {
     return pokemonList;
   }
 
+  
+  function add(pokemon) {
+      pokemonList.push(pokemon);
+  }
+  
+
 //Creates the list of Pokemon buttons
 function addListItem(pokemon) {
-  let pokemonlist  = document.querySelector (".pokemon-list");
+  let pokemonlist  = document.querySelector (".list-group"); //bootstrap
   let listpokemon = document.createElement ("li");
+  listpokemon.classList.add('list-group-item'); //bootstrap
+  // button inside li
   let button = document.createElement ("button");
+  button.classList.add('btn'); // bootstrap 
+  button.classList.add('btn-block');
+  button.setAttribute('data-toggle', 'modal'); // bootstrap 
+  button.setAttribute('data-target', '#modal'); // bootstrap 
   button.innerText = pokemon.name;
   button.classList.add("button-class");
   listpokemon.appendChild(button);
@@ -22,11 +30,7 @@ function addListItem(pokemon) {
   button.addEventListener("click", () => {showDetails(pokemon)});
 }
 
-function showDetails(pokemon) {
-  loadDetails(pokemon).then(function () {
-    showModal(pokemon);
-  });
-}
+
 function loadList() {
   return fetch(apiUrl).then(function (response) {
     return response.json();
@@ -57,70 +61,53 @@ function loadDetails(item) {
   });
 }
 
+
+function showDetails(pokemon) {
+  loadDetails(pokemon).then(function () {
+    showModal(pokemon);
+  });
+}
+
+
 //modal
-let modalContainer = document.querySelector(".modal-container");
 
-function showModal(pokemon) {
-  let modal = document.createElement("div");
-  modal.classList.add("modal");
+function showModal(item) {
+  
+  let modalBody = document.querySelector('.modal-body');
+  let modalTitle = document.querySelector('.modal-title');
+  let modalHeader = document.querySelector('.modal-header');
 
 
-  let closeButtonElement = document.createElement("button");
-  closeButtonElement.classList.add("modal-close");
-  closeButtonElement.innerText = "Close";
-  closeButtonElement.addEventListener("click", hideModal);
+  modalTitle.innerHTML = '';
+  modalBody.innerHTML = '';
 
-  let titleElement = document.createElement("h1");
-  titleElement.innerText = 'Name' +': '+ pokemon.name;
-
+  // creating element for  modal 
+  let nameElement = document.createElement('h1');
+  nameElement.innerText = item.name;
+  // IMAGE 
+  let imageElement = document.createElement('img');
+  imageElement.classList.add('modal-img');
+  imageElement.setAttribute('src', item.imageUrl);
+  imageElement.classList.add('float-right'); // bootstrap
+        
+   // Height         
   let contentElement = document.createElement("p");
-  contentElement.innerText = 'Height' + ': ' + pokemon.height + "'";
+  contentElement.innerText = 'Height' + ': ' + item.height + "'";
 
-
-  let myImage = document.createElement('img');
-  myImage.src = pokemon.imageUrl; 
-  modal.appendChild(myImage);
-
-  modal.appendChild(closeButtonElement);
-  modal.appendChild(titleElement);
-  modal.appendChild(contentElement);
-  modalContainer.appendChild(modal);
-  modalContainer.classList.add("is-visible");
+  modalTitle.appendChild(nameElement);
+  modalBody.appendChild(imageElement);
+  modalBody.appendChild(heightElement);
 }
-
-let dialogPromiseReject;
-
-function hideModal() {
-  let modal = document.querySelector(".modal");
-  modal.remove();
-
-  if (dialogPromiseReject) {
-      dialogPromiseReject();
-      dialogPromiseReject = null;
-  }
-}
-
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
-    hideModal();
-  }
-});
-
-modalContainer.addEventListener("click", (e) => {
-  let target = e.target;
-  if (target === modalContainer) {
-    hideModal();
-  }
-});
 
 
 return {
-  add: add,
   getAll: getAll,
+  add: add,
+  addListItem: addListItem,
   loadList: loadList,
   loadDetails: loadDetails,
-  addListItem: addListItem,
-  showDetails: showDetails
+  showDetails: showDetails,
+  showModal: showModal
 };
 })();
 

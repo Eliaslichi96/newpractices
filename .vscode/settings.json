@@ -1,0 +1,6 @@
+{
+    "eslint.lintTask.enable": true,
+    "eslint.problems.shortenToSingleLine": true,
+    "eslint.run": "onSave",
+    "eslint.useESLintClass": false
+}

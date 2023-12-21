@@ -1,0 +1,1 @@
+.header,ul{text-align:left}.selector-for-some-widget{box-sizing:content-box}.button-class:focus,.button-class:hover{cursor:pointer;transform:scale(1.1)}.header{padding-left:15px}ul{list-style-type:none;padding-left:10px}h1{margin-top:60px}modal-container{display:none}#image-container{position:absolute;margin:auto;height:60px;width:60px}
